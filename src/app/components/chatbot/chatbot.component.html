@@ -1,0 +1,49 @@
+
+<div class="error-block" *ngIf="hasError">
+    Name and E-mail are required to start the chat
+</div>
+<div class="chatbot-content" *ngIf="!hasError">
+    <ng-container *ngIf="showQuestionsBlock">
+        <h3>Hello, {{ name }}</h3>
+        <h4>How can I help you today?</h4>
+        <div class="guidelines-link">
+            <a target="_blank" href="https://mura-c58f2f.webflow.io/guidelines">Click to know mura guidelines
+                <img src="assets/images/arrow.svg" alt="">
+            </a>
+        </div>
+        <div class="questions-block">
+            <div class="question" *ngFor="let item of questions;"  (click)="onStartConversation(item)">
+                {{ item }}
+            </div>
+        </div>
+    </ng-container>
+    <div class="conversation" #scrollMe *ngIf="conversation.length">
+        <div class="item" *ngFor="let item of conversation;let index = index;" [ngClass]="item.author">
+            <!-- <strong *ngIf="item.author === user'">You </strong>
+            <strong *ngIf="item.author === 'bot'">Mura </strong> -->
+            <span [innerHTML]="item.text"></span>
+        </div>
+        <div class="chatbot-loader" *ngIf="chatbotLoading">
+            <div class="loader"></div>
+        </div>
+    </div>
+    <!-- <div class="message-block">
+        <input type="text" placeholder="Message" (keyup.enter)="onAsk()" [(ngModel)]="inputText">
+        <button (click)="startRecognition()">
+            <img src="assets/images/microphone.svg" alt="Microphone">
+        </button>
+    </div> -->
+    <div class="message-block">
+        <textarea #textarea matInput cdkTextareaAutosize
+        resize="vertical" (focus)="focused = true" (input)="adjustHeight($event)"
+        rows="1" placeholder="Message" [formControl]="inputControl"
+        (blur)="focused = false"></textarea>
+        <button type="submit" class="btn btn-sent" *ngIf="inputControl.value && !chatbotLoading" (click)="onAsk()">
+            <img src="assets/images/icon-sent.svg" alt="Sent">
+        </button>
+    </div>
+    <div class="response-text">mura may display inaccurate info, so double-check its responses</div>
+</div>
+<div class="content-loader-bg" *ngIf="contentLoading">
+    <div class="content-loader"></div>
+</div>
