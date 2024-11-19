@@ -59,6 +59,7 @@ export class ChatbotComponent implements OnInit {
         this.email = this.route.snapshot.queryParams['email'] || '';
         if (!this.name || !this.email) {
             this.hasError = true;
+            this.contentLoading = false;
         }
         setTimeout(() => {
             this.scrollToBottom();
